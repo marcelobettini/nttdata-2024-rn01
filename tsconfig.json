@@ -1,6 +1,10 @@
 {
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
-    "strict": true
+    "strict": true,
+    "baseUrl": "./src",// Define la carpeta base desde donde se resuelven las importaciones
+    "paths": {
+      "@/*": ["*"] // Define un alias para importar archivos o carpetas desde la carpeta base
+    }
   }
 }
