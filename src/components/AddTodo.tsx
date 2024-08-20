@@ -1,4 +1,3 @@
-import { Todo } from '@/types/types'
 import { StyleSheet, View } from 'react-native'
 import { Button, TextInput } from 'react-native-paper'
 interface props {
@@ -8,7 +7,7 @@ interface props {
 }
 const AddTodo = ({ text, setText, addTodo }: props) => {
     return (
-        <View>
+        <View style={styles.container}>
 
             <TextInput
                 mode='flat'
@@ -24,4 +23,10 @@ const AddTodo = ({ text, setText, addTodo }: props) => {
 
 export default AddTodo
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+    container: {
+        rowGap: 10,
+        justifyContent: 'space-between',
+        marginBottom: 10
+    }
+})

@@ -1,16 +1,16 @@
 import * as Crypto from "expo-crypto"
-import { FontAwesome } from "@expo/vector-icons"
-import { Todo } from "@/types/types";
-import { useState } from "react";
-import { View, Text, FlatList, TouchableOpacity, StyleSheet, Pressable, Alert } from
+import { ITodo } from "@/types/types";
+import React, { useState } from "react";
+import { View, FlatList, StyleSheet, Keyboard } from
     "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import AppHeader from "./AppHeader";
 import AddTodo from "./AddTodo";
+import Todo from "./Todo";
 
 
 function TodoList() {
-    const [todos, setTodos] = useState<Todo[]>([])
+    const [todos, setTodos] = useState<ITodo[]>([])
     const [text, setText] = useState("")
     const addTodo = () => {
         if (text.trim()) {
@@ -22,9 +22,7 @@ function TodoList() {
             setTodos([...todos, newTask])
             setText("")
         }
-
-
-
+        Keyboard.dismiss()
     }
     const toggleTaskStatus = (id: string) => {
         const updatedTodos = todos.map(todo => todo.id === id ? { ...todo, isCompleted: !todo.isCompleted } : todo)
@@ -47,16 +45,7 @@ function TodoList() {
                     data={todos}
                     keyExtractor={(item) => item.id}
                     renderItem={({ item }) => (
-                        <View style={styles.taskContainer}>
-                            <Pressable onPress={() => toggleTaskStatus(item.id)}>
-                                <Text
-                                    style={[styles.taskText, styles.mt, item.isCompleted && styles.completed]}
-                                >{item.description}</Text>
-                            </Pressable>
-                            <TouchableOpacity onPress={() => deleteTask(item.id)}>
-                                <FontAwesome name="trash" size={24} color={"tomato"} />
-                            </TouchableOpacity>
-                        </View>
+                        <Todo {...item} onToggle={toggleTaskStatus} onDelete={deleteTask} />
                     )}
                 />
 
@@ -86,17 +75,7 @@ export const styles = StyleSheet.create({
         fontSize: 18,
     },
 
-    mt: {
-        marginTop: 16
-    },
 
-    taskText: {
-        fontSize: 20
-    },
-    completed: {
-        color: "tomato",
-        textDecorationLine: "line-through",
-    },
     taskContainer: {
         flexDirection: "row",
         justifyContent: "space-between",
