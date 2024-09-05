@@ -63,14 +63,26 @@ const Todo = ({ id, description, isCompleted, onToggle, onDelete }: Props) => {
         inputRange: [-TODO_SWIPE_THRESHOLD * 2.8, 0],
         outputRange: [1, 0]
     })
+    const purpleLayerOpacity = translateX.interpolate({
+        inputRange: [0, TODO_SWIPE_THRESHOLD],
+        outputRange: [0, 1]
+    })
     return (
         <GestureHandlerRootView>
             <View style={{ position: 'relative' }} >
 
-                {/*Una capa de presentacion que aparece detran del Todo en color rojo */}
+                {/*Una capa de presentacion que aparece detras del Todo en color rojo */}
                 <Animated.View style={[styles.redLayer, { opacity: redLayerOpacity }]}>
                     <Animated.View style={styles.deleteIconContainer}>
                         <MaterialCommunityIcons name="trash-can-outline" size={24} color="white" />
+
+                    </Animated.View>
+
+                </Animated.View>
+                {/*Una capa de presentacion que aparece detran del Todo en color purpura */}
+                <Animated.View style={[styles.purpleLayer, { opacity: purpleLayerOpacity }]}>
+                    <Animated.View style={styles.checkIconContainer}>
+                        <MaterialCommunityIcons name="check-circle-outline" size={24} color="white" />
 
                     </Animated.View>
 
@@ -138,18 +150,30 @@ const styles = StyleSheet.create({
         textDecorationLine: "line-through",
     },
     redLayer: {
-        backgroundColor: 'red',
         position: 'absolute',
+        backgroundColor: 'red',
         borderRadius: 12,
         top: 20,
         height: 30,
         right: 0,
-        left: 0
-
+        left: 0,
+    },
+    purpleLayer: {
+        position: 'absolute', // Posición absoluta similar a la capa roja.
+        backgroundColor: '#512da8', // Color de fondo púrpura para indicar una acción constructiva (completar).
+        top: 20,
+        height: 30,
+        right: 0,
+        left: 0,
+        borderRadius: 12,
     },
 
     deleteIconContainer: {
         position: 'absolute',
         right: 20
+    },
+    checkIconContainer: {
+        position: 'absolute',
+        left: 20
     }
 })
