@@ -6,8 +6,8 @@ import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { GestureHandlerRootView, PanGestureHandler, State } from 'react-native-gesture-handler'
 
 interface Props extends ITodo {
-    onToggle: (id: string) => void
-    onDelete: (id: string) => void
+    onToggle: (id: number, status: boolean) => void
+    onDelete: (id: number) => void
 }
 
 //definir el umbral de desplazamiento para decidir cuando activar las acciones asignadas al swipe (swipe to delete, swipte to toggle...)
@@ -43,7 +43,7 @@ const Todo = ({ id, description, isCompleted, onToggle, onDelete }: Props) => {
             }
             // si el desplazamiento hacia la derecha supera el umbral que definamos para este movimiento concreto, se considera una accion de toggleCompleted
             else if (translationX > TODO_SWIPE_THRESHOLD) {
-                onToggle(id)
+                onToggle(id, isCompleted)
             }
             Animated.spring(translateX, {
                 toValue: 0, //Volver a la posicion inicial
@@ -95,7 +95,7 @@ const Todo = ({ id, description, isCompleted, onToggle, onDelete }: Props) => {
 
                 >
                     <Animated.View style={[styles.todoContainer, animatedStyle]}>
-                        <Pressable onLongPress={() => onToggle(id)}
+                        <Pressable onLongPress={() => onToggle(id, isCompleted)}
                             onPress={showDialog}
                         >
                             <Text
